@@ -62,7 +62,7 @@ class MBConv(nn.Module):
       self.expand = in_channel != expanded_dim # Check expand_ratio =? 1
       
       # reduction
-      reduced_dim = int(expanded_dim/reduction)
+      reduced_dim = int(in_channel/reduction)
       
       if self.expand: # Expand_ration != 1 (6)
          self.expand_conv = nn.Sequential(
@@ -97,10 +97,11 @@ class MBConv(nn.Module):
       x = self.se(x)
       x = self.last_conv(x)
       
-      if self.use_residual:
+      if self.use_residual and self.training:
          # Check for dropping skip-connection
          random_value = torch.rand(1).item()
          if random_value < self.survival_prob: # Allow to +
+            # print('Block with skip-connection ')
             return x + original_x
          
       return x
@@ -138,7 +139,7 @@ class EfficentNet(nn.Module):
 
       # Iter each stage      
       for expand_ratio, repeat, channel, kernel_size, stride in base_line:
-         out_channel = 4*ceil((channel * width_factor)/4)
+         out_channel = 8*ceil((channel * width_factor)/8)
          block_repeats = ceil(repeat*depth_factor)
          # Iter each block in STAGE
          for block in range(block_repeats):
@@ -170,7 +171,7 @@ class EfficentNet(nn.Module):
       return x
    
 if __name__ == "__main__":
-   model = EfficentNet(version='b0', num_classes=10)
+   model = EfficentNet(version='b5', num_classes=10)
    x = torch.randn(1, 3, 224, 224)
    y = model(x)
    print(y.shape)
