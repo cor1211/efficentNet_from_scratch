@@ -28,7 +28,7 @@ parser.add_argument('--image_path', type = str, default=r'D:\học\Tài Liệu C
 parser.add_argument('--resize', type = int, default=224)
 parser.add_argument('--version', type = str, default='b0')
 parser.add_argument('--num_classes', type = int, default=10)
-parser.add_argument('--weight_path', type = str, default=r'D:\học\Tài Liệu CNTT\efficentNet\weights\vehicle\b0\b0-epoch85-0_815.pth')
+parser.add_argument('--weight_path', type = str, default=r'weights\vehicle\b0\b0-epoch85-0_815.pth')
 args = parser.parse_args()
 version = args.version
 weight_path = args.weight_path
