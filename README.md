@@ -36,6 +36,7 @@ Specifically, the model is trained **completely from scratch** to solve the task
 ```
 bash
 conda env create -f environment.yml # Need to install anaconda/miniconda before
+conda activate ai_env
 git clone https://github.com/cor1211/efficentNet_from_scratch.git
 ```
 
@@ -44,6 +45,6 @@ git clone https://github.com/cor1211/efficentNet_from_scratch.git
 ## 🚀 Using
 ```
 bash
-python test.py --image_path "your_image"
+python test.py --image_path "your_image_path"
 ```
 ✨ This repository is for **learning & research purposes**, designed for anyone who wants to understand how to build EfficientNet from scratch.
