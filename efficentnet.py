@@ -97,13 +97,13 @@ class MBConv(nn.Module):
       x = self.se(x)
       x = self.last_conv(x)
       
-      if self.use_residual and self.training:
-         # Check for dropping skip-connection
-         random_value = torch.rand(1).item()
-         if random_value < self.survival_prob: # Allow to +
-            # print('Block with skip-connection ')
-            return x + original_x
-         
+      random_value = torch.rand(1).item()
+      if self.use_residual:
+         if self.training:
+            if random_value < self.survival_prob:
+               return x + original_x
+            return x
+         return x + original_x
       return x
    
 class EfficentNet(nn.Module):
@@ -122,7 +122,7 @@ class EfficentNet(nn.Module):
       self.classifier = nn.Sequential(
          nn.Dropout(p=drop_rate),
          nn.Linear(in_features=last_channels, out_features=num_classes),
-         nn.Softmax(dim=1)
+         # nn.Softmax(dim=1)
       )
       
    def get_scale_rate(sefl, version):
